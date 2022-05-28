@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: '',
+    baseURL: 'http://astq-rosy.vercel.app/',
     timeout: 60000
 })
 

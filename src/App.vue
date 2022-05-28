@@ -59,6 +59,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-json'
 import 'prismjs/plugins/line-numbers/prism-line-numbers'
@@ -113,7 +114,40 @@ const changeApi = (v: string) => {
     store.id = ''
 }
 
+const errtip = (message: string) => {
+    ElMessage({
+        showClose: true,
+        message: message,
+        type: 'error',
+        center: true
+    })
+}
+
 const query = async () => {
+    if (!store.iss.trim().length) {
+        errtip('ISS不能为空')
+        return
+    }
+    if (!store.kid.trim().length) {
+        errtip('KID不能为空')
+        return
+    }
+    if (!store.bid.trim().length) {
+        errtip('BID不能为空')
+        return
+    }
+    if (!store.pk.trim().length) {
+        errtip('PK不能为空')
+        return
+    }
+    if (!store.aud.trim().length) {
+        errtip('AUD不能为空')
+        return
+    }
+    if (!store.id.trim().length) {
+        errtip('ID不能为空')
+        return
+    }
     let resp
     switch (store.api) {
         case 'subscriptions':
@@ -129,11 +163,12 @@ const query = async () => {
             resp = await GetRefund()
             break
         default:
-            store.result = '未知请求'
+            errtip('未知请求')
             return
     }
     if (resp.code) {
-        store.result = resp.msg
+        errtip(resp.msg)
+        store.result = ''
         return
     }
     store.result = Prism.highlight(JSON.stringify(JSON.parse(resp.data), null, '    '), Prism.languages.json, 'json')
@@ -141,6 +176,7 @@ const query = async () => {
 </script>
 
 <style lang="scss">
+@import "element-plus/dist/index.css";
 @import 'prismjs/plugins/toolbar/prism-toolbar.min.css';
 @import 'prismjs/plugins/line-numbers/prism-line-numbers.min.css';
 @import 'prismjs/themes/prism.css';

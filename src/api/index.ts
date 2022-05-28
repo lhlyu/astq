@@ -5,7 +5,7 @@ import useConfigStore from '../stores/config'
 export const GetSubscriptions = async () => {
     const store = useConfigStore()
     return instance.get('/api/subscriptions', {
-        data: store.getReq
+        data: JSON.stringify(store.getReq)
     })
 }
 
@@ -13,7 +13,7 @@ export const GetSubscriptions = async () => {
 export const GetLookupOrder = async () => {
     const store = useConfigStore()
     return instance.get('/api/lookup', {
-        data: store.getReq
+        data: JSON.stringify(store.getReq)
     })
 }
 
@@ -21,7 +21,7 @@ export const GetLookupOrder = async () => {
 export const GetRefund = async () => {
     const store = useConfigStore()
     return instance.get('/api/refund', {
-        data: store.getReq
+        data: JSON.stringify(store.getReq)
     })
 }
 
@@ -29,6 +29,6 @@ export const GetRefund = async () => {
 export const GetHistory = async () => {
     const store = useConfigStore()
     return instance.get('/api/history', {
-        data: store.getReq
+        data: JSON.stringify(store.getReq)
     })
 }
