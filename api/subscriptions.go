@@ -54,19 +54,12 @@ type Resp struct {
 }
 
 func NewResp(data interface{}, err error) *Resp {
+    b, _ := json.Marshal(data)
 	if err != nil {
 		return &Resp{
 			Code: 1,
 			Msg:  err.Error(),
-			Data: "",
-		}
-	}
-	b, err := json.Marshal(data)
-	if err != nil {
-		return &Resp{
-			Code: 2,
-			Msg:  err.Error(),
-			Data: "",
+			Data: string(b),
 		}
 	}
 	return &Resp{
@@ -99,7 +92,7 @@ func Subscriptions(w http.ResponseWriter, r *http.Request) {
 		Aud: req.Aud,
 	})
 	if err != nil {
-		io.WriteString(w, NewResp(nil, err).Json())
+		io.WriteString(w, NewResp(req, err).Json())
 		return
 	}
 	result, err := c.ApiGetAllSubscriptionStatuses(req.ID)
