@@ -26,7 +26,7 @@ const useConfigStore = defineStore({
             result: ''
         } as Req),
     getters: {
-        getReq: (state): Req => ({
+        getReq: (state): string => (decodeURIComponent(JSON.stringify({
             iss: state.iss,
             kid: state.kid,
             bid: state.bid,
@@ -35,7 +35,7 @@ const useConfigStore = defineStore({
             id: state.id,
             api: state.api,
             result: ''
-        })
+        })))
     },
     actions: {
         reset() {
