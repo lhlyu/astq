@@ -97,7 +97,7 @@ func Subscriptions(w http.ResponseWriter, r *http.Request) {
 	}
 	result, err := c.ApiGetAllSubscriptionStatuses(req.ID)
 	if err != nil {
-		io.WriteString(w, NewResp(nil, err).Json())
+		io.WriteString(w, NewResp(req, err).Json())
 		return
 	}
 	io.WriteString(w, NewResp(result, nil).Json())
