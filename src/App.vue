@@ -19,7 +19,7 @@
                             <el-input v-model="store.bid" placeholder="应用的BundleID（例如：“com.example.testbundleid2021”)" />
                         </el-form-item>
                         <el-form-item label="PK - 签名的秘钥">
-                            <el-input v-model="store.pk" :rows="5" type="textarea" :placeholder="pk" />
+                            <el-input spellcheck="false" v-model="store.pk" :rows="5" type="textarea" :placeholder="pk" />
                         </el-form-item>
                         <el-form-item label="AUD">
                             <el-input v-model="store.aud" placeholder="appstoreconnect-v1" />

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import CryptoJS from 'crypto-js';
 
 export interface Req {
     iss: string
@@ -35,7 +36,8 @@ const useConfigStore = defineStore({
                 aud: state.aud,
                 id: state.id,
             }
-            return window.atob(JSON.stringify(val))
+            const wordArray = CryptoJS.enc.Utf8.parse(JSON.stringify(val))
+            return CryptoJS.enc.Base64.stringify(wordArray)
         }
     },
     actions: {
