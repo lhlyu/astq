@@ -59,7 +59,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-json'
 import 'prismjs/plugins/line-numbers/prism-line-numbers'
@@ -115,12 +114,7 @@ const changeApi = (v: string) => {
 }
 
 const errtip = (message: string) => {
-    ElMessage({
-        showClose: true,
-        message: message,
-        type: 'error',
-        center: true
-    })
+    alert(message)
 }
 
 const query = async () => {
@@ -176,7 +170,6 @@ const query = async () => {
 </script>
 
 <style lang="scss">
-@import "element-plus/dist/index.css";
 @import 'prismjs/plugins/toolbar/prism-toolbar.min.css';
 @import 'prismjs/plugins/line-numbers/prism-line-numbers.min.css';
 @import 'prismjs/themes/prism.css';
