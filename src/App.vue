@@ -7,7 +7,7 @@
                 </div>
             </template>
             <el-row :gutter="30">
-                <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10">
                     <el-form label-position="top" label-width="50px" style="width: 100%">
                         <el-form-item label="ISS - 发行人">
                             <el-input v-model="store.iss" placeholder='您在 App Store Connect 中的密钥页面中的发行者 ID（例如：" 57246542-96fe-1a63-e053-0824d011072a"）' />
@@ -29,8 +29,8 @@
                         </el-form-item>
                     </el-form>
                 </el-col>
-                <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-                    <el-form label-position="top" label-width="50px" style="width: 100%; overflow: auto">
+                <el-col :xs="24" :sm="24" :md="14" :lg="14" :xl="14">
+                    <el-form label-position="top" label-width="50px" style="width: 100%;">
                         <el-form-item label="查询接口">
                             <el-select placeholder="查询接口" v-model="store.api" @change="changeApi">
                                 <el-option v-for="item in apis" :key="item.value" :label="item.label" :value="item.value" />
@@ -42,7 +42,7 @@
                         <el-form-item>
                             <el-button plain @click="query">查询</el-button>
                         </el-form-item>
-                        <el-form-item label="结果">
+                        <el-form-item label="结果" style="overflow: auto;">
                             <pre
                                 class="line-numbers"
                                 lang="zh-Hans-CN"
