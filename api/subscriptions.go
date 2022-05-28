@@ -1,11 +1,11 @@
 package api
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"github.com/lhlyu/appstoreserverapi"
 	"io"
 	"net/http"
-	"net/url"
 )
 
 type Req struct {
@@ -36,12 +36,12 @@ type Req struct {
 
 func getReq(r *http.Request) (*Req, error) {
 	q := r.URL.Query().Get("q")
-	b, err := url.QueryUnescape(q)
+	b, err := base64.StdEncoding.DecodeString(q)
 	if err != nil {
 		return nil, err
 	}
 	req := &Req{}
-	if err := json.Unmarshal([]byte(b), req); err != nil {
+	if err := json.Unmarshal(b, req); err != nil {
 		return nil, err
 	}
 	return req, nil
@@ -54,7 +54,7 @@ type Resp struct {
 }
 
 func NewResp(data interface{}, err error) *Resp {
-    b, _ := json.Marshal(data)
+	b, _ := json.Marshal(data)
 	if err != nil {
 		return &Resp{
 			Code: 1,
@@ -87,7 +87,7 @@ func Subscriptions(w http.ResponseWriter, r *http.Request) {
 	c, err := appstoreserverapi.NewClient(&appstoreserverapi.Config{
 		Iss: req.Iss,
 		Kid: req.Kid,
-		Bid: req.Kid,
+		Bid: req.Bid,
 		Pk:  req.Pk,
 		Aud: req.Aud,
 	})

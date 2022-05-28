@@ -26,16 +26,17 @@ const useConfigStore = defineStore({
             result: ''
         } as Req),
     getters: {
-        getReq: (state): string => (decodeURIComponent(JSON.stringify({
-            iss: state.iss,
-            kid: state.kid,
-            bid: state.bid,
-            pk: state.pk,
-            aud: state.aud,
-            id: state.id,
-            api: state.api,
-            result: ''
-        })))
+        getReq: (state): string => {
+            const val = {
+                iss: state.iss,
+                kid: state.kid,
+                bid: state.bid,
+                pk: state.pk,
+                aud: state.aud,
+                id: state.id,
+            }
+            return window.atob(JSON.stringify(val))
+        }
     },
     actions: {
         reset() {

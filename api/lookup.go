@@ -17,19 +17,19 @@ func Lookup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	c, err := appstoreserverapi.NewClient(&appstoreserverapi.Config{
-		Iss:      req.Iss,
-		Kid:      req.Kid,
-		Bid:      req.Kid,
-		Pk:       req.Pk,
-		Aud:      req.Aud,
+		Iss: req.Iss,
+		Kid: req.Kid,
+		Bid: req.Bid,
+		Pk:  req.Pk,
+		Aud: req.Aud,
 	})
 	if err != nil {
-		io.WriteString(w, NewResp(nil, err).Json())
+		io.WriteString(w, NewResp(req, err).Json())
 		return
 	}
-	result,err := c.ApiLookUpOrderId(req.ID)
+	result, err := c.ApiLookUpOrderId(req.ID)
 	if err != nil {
-		io.WriteString(w, NewResp(nil, err).Json())
+		io.WriteString(w, NewResp(req, err).Json())
 		return
 	}
 	io.WriteString(w, NewResp(result, nil).Json())
