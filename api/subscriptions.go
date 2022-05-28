@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"github.com/lhlyu/appstoreserverapi"
 	"io"
-	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 type Req struct {
@@ -35,21 +35,21 @@ type Req struct {
 }
 
 func getReq(r *http.Request) (*Req, error) {
-	b, err := ioutil.ReadAll(r.Body)
+	q := r.URL.Query().Get("q")
+	b, err := url.QueryUnescape(q)
 	if err != nil {
 		return nil, err
 	}
-	r.Body.Close()
 	req := &Req{}
-	if err := json.Unmarshal(b, req); err != nil {
+	if err := json.Unmarshal([]byte(b), req); err != nil {
 		return nil, err
 	}
 	return req, nil
 }
 
 type Resp struct {
-	Code int `json:"code"`
-	Msg string `json:"msg"`
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
 	Data string `json:"data"`
 }
 
@@ -61,7 +61,7 @@ func NewResp(data interface{}, err error) *Resp {
 			Data: "",
 		}
 	}
-	b,err := json.Marshal(data)
+	b, err := json.Marshal(data)
 	if err != nil {
 		return &Resp{
 			Code: 2,
@@ -77,7 +77,7 @@ func NewResp(data interface{}, err error) *Resp {
 }
 
 func (r *Resp) Json() string {
-	b,_ := json.Marshal(r)
+	b, _ := json.Marshal(r)
 	return string(b)
 }
 
@@ -92,17 +92,17 @@ func Subscriptions(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	c, err := appstoreserverapi.NewClient(&appstoreserverapi.Config{
-		Iss:      req.Iss,
-		Kid:      req.Kid,
-		Bid:      req.Kid,
-		Pk:       req.Pk,
-		Aud:      req.Aud,
+		Iss: req.Iss,
+		Kid: req.Kid,
+		Bid: req.Kid,
+		Pk:  req.Pk,
+		Aud: req.Aud,
 	})
 	if err != nil {
 		io.WriteString(w, NewResp(nil, err).Json())
 		return
 	}
-	result,err := c.ApiGetAllSubscriptionStatuses(req.ID)
+	result, err := c.ApiGetAllSubscriptionStatuses(req.ID)
 	if err != nil {
 		io.WriteString(w, NewResp(nil, err).Json())
 		return
